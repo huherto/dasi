@@ -1,0 +1,139 @@
+---
+title: "Unit4: Inference for numerical variables"
+output: html_document
+---
+
+Introduction
+-----------------------------
+- Comparing two means.
+- Bootstrapping.
+- Working with small samples.
+- Comparing many means.
+
+## Part 1:
+### Hypothesis Testing for Paired Data
+
+Analyzing paired data:
+
+- When two sets of observations have this special
+  correspondence (not independent), they are said to be
+  paired.
+  
+- To analyze paired data, it is often useful to look at the difference
+  in outcomes of each pair of observations:
+  
+  ````
+  diff = read score - wirte score
+  ````
+  
+- It is importante that we always substract using a consistent order.
+
+Parameter of interest: ${\mu_{diff}}$
+
+Point estimate: ${\bar{x}_{diff}}$
+  
+#### Hypotheses for paired means
+
+1. Set the hypotheses:
+
+${H_0: \mu_{diff} = 0}$
+
+${H_A: \mu_{diff} \neq 0}$
+
+2. Calculate point estimate. ${\bar{x}_{diff}}$
+
+3. Check conditions.
+
+    1. Independence: Sample observations must be independent.
+    
+    2. Sample size/skew: n >= 30, larger if the population is very skewed.
+  
+4. Draw sampling distribution, shade p-value, calculate test statistic.
+
+    ${Z = \dfrac{x_{diff} - \mu_{diff}}{SE_{\bar{x}_{diff}} } }$
+
+5. Make a decision, and interpret it in context of the research question.
+
+````{r}
+mu = 0
+mean=-0.545
+s = 8.887
+n = 200
+se = s/(sqrt(n))
+z = (mean - mu)/se
+pvalue=pnorm(z) * 2
+c(se, z, pvalue)
+````
+
+### Confidence Intervals for Paired Data
+
+Estimated the difference between paired means.
+
+  point estimate ${\pm}$ margin of error
+  
+  ${ SE_{\bar{x}_{diff}} = \dfrac{s_{diff}}{ \sqrt{n_{diff}} } }$ and
+  ${ \bar{x}_{diff}  \pm z * SE_{\bar{x}_{diff}} }$
+
+  ${ \bar{x}_{diff}  \pm z * \dfrac{s_{diff}}{ \sqrt{n_{diff}} } }$
+
+
+Compare pvalue with ${ \alpha }$
+````{r}
+z=qnorm((1 - .95)/2)
+ci1 = mean - z*se
+ci2 = mean + z*se
+c(se, z, ci1, ci2) 
+
+````
+
+### Comparing Independent Means.
+- Confidence intervals.
+- Hypothesis tests
+
+#### Estimating the difference between independent means.
+
+Parameter of interest: ${ \mu_1 - \mu_2}$
+
+Point estimate: ${ \bar{x}_1 - \bar{x}_2  }$
+
+Point estimate ${ \pm }$ Margin of Error: ${  (\bar{x}_1 - \bar{x}_2) \pm z* SE_{\bar{x}_1 - \bar{x}_2} }$
+
+Standard error of difference between two independent means:
+${  SE_{(\bar{x}_1 - \bar{x}_2)} = \sqrt{ \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} } }$
+
+#### Conditions of independence for comparing two independent means.
+
+1. Independence:
+
+  - Within groups. random and n <= 10% population.
+  
+  - Between groups. (non-paired)
+  
+2. Sample size/skew: n1 >= 30 and n2 >= 30.
+
+````{r}
+x1 = 41.8
+x2 = 39.4
+s1 = 15.14
+s2=15.12
+n1=505
+n2=667
+z=1.96
+me = z*sqrt(s1^2/n1 + s2^2/n2)
+(x1 -x2) - me
+(x1 -x2) + me
+````
+
+#### Testing for a difference between independence means.
+
+${ H_0: \mu_1 - \mu_2 = 0}$
+
+${ H_A: \mu_1 - \mu_2 \ne 0}$
+
+Point estimate:${ {(\bar{x}_1 - \bar{x}_2)} \tilde{} N(mean=0, SE = 0.89) }$
+
+````{r}
+x=seq(-3,3,length=200)
+y=dnorm(x,mean=0,sd=0.89)
+plot(x,y,type="l",lwd=1,col="blue")
+````
