@@ -111,6 +111,8 @@ ${  SE_{(\bar{x}_1 - \bar{x}_2)} = \sqrt{ \frac{s_1^2}{n_1} + \frac{s_2^2}{n_2} 
   
 2. Sample size/skew: n1 >= 30 and n2 >= 30.
 
+Example:
+
 ````{r}
 x1 = 41.8
 x2 = 39.4
@@ -119,9 +121,10 @@ s2=15.12
 n1=505
 n2=667
 z=1.96
-me = z*sqrt(s1^2/n1 + s2^2/n2)
-(x1 -x2) - me
-(x1 -x2) + me
+se = sqrt(s1^2/n1 + s2^2/n2)
+me = z*se
+mean = x1 - x2
+sprintf("se=%.4f, me=%.4f, mean=%.4f, ci(%.4f, %.4f)", se, me, mean, mean - me, mean + me)
 ````
 
 #### Testing for a difference between independence means.
@@ -136,4 +139,11 @@ Point estimate:${ {(\bar{x}_1 - \bar{x}_2)} \tilde{} N(mean=0, SE = 0.89) }$
 x=seq(-3,3,length=200)
 y=dnorm(x,mean=0,sd=0.89)
 plot(x,y,type="l",lwd=1,col="blue")
+
+z=(mean - 0)/se
+pvalue=(1 - pnorm(z))*2
+sprintf("z=%.4f, pvalue=%.4f", z, pvalue)
+if (pvalue < .05) {
+  print("Reject null hypothesis")
+}
 ````
