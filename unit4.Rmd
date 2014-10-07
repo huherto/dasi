@@ -147,3 +147,52 @@ if (pvalue < .05) {
   print("Reject null hypothesis")
 }
 ````
+
+## Part 2:
+### Bootstraping
+
+1. Tale a bootstrap sample - random sample taken *with replacement* from the original sample, of the same size as the original sample.
+
+2. Calculate the bootstrap statistic - a statistic such as mean, median, proportion, etc. computed on the bootstrap samples.
+
+3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics.
+
+## Part 3:
+### t Distribution
+
+A large sample ensures that...
+
+1. The sample distribution of the mean is nearly normal.
+
+2. The estimate of the standar error is reliable. ${ SE = \dfrac{s}{ \sqrt{n}} }$
+
+* When n is small and ${\sigma}$ is unkown(almost always), use the **t distribution** to address the uncertanty of the standard error estimate.
+
+* t distribution is bell shaped, but thicker than the normal.
+
+    + Observations more likely to fall beyond 2 SDs from the mean.
+  
+    + Extra thick tails helpful for mitigating the effect of a less reliable estimate for the standard error of the sampling distribution.
+  
+    + Always center at 0 (like the standard normal)
+    
+    + Has one parameter: **degrees of freedom (df) ** - determines thickness of tails
+    
+    + Approaches normality as degrees of freedom increases.
+    
+#### Use the t statistic.
+
+* for inference on a mean when
+    + ${ \sigma }$ is unknown.
+    + n < 30
+* Calculated the same way.
+    + ${ T = \dfrac{obs - null}{SE} }$
+* p-value (same definition)
+    + one or two tail area, based on ${H_A}$
+    + using R, applet, or table.
+    
+
+    
+
+
+
