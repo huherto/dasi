@@ -11,7 +11,7 @@ Introduction
 - Comparing many means.
 
 ## Part 1:
-### Hypothesis Testing for Paired Data
+### Part 1: Hypothesis Testing for Paired Data
 
 Analyzing paired data:
 
@@ -65,7 +65,7 @@ pvalue=pnorm(z) * 2
 c(se, z, pvalue)
 ````
 
-### Confidence Intervals for Paired Data
+### Part 1: Confidence Intervals for Paired Data
 
 Estimated the difference between paired means.
 
@@ -86,7 +86,7 @@ c(se, z, ci1, ci2)
 
 ````
 
-### Comparing Independent Means.
+### Part 1: Comparing Independent Means.
 - Confidence intervals.
 - Hypothesis tests
 
@@ -149,7 +149,7 @@ if (pvalue < .05) {
 ````
 
 ## Part 2:
-### Bootstraping
+### Part 2: Bootstraping
 
 1. Tale a bootstrap sample - random sample taken *with replacement* from the original sample, of the same size as the original sample.
 
@@ -158,7 +158,7 @@ if (pvalue < .05) {
 3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics.
 
 ## Part 3:
-### t Distribution
+### Part 3: t Distribution
 
 A large sample ensures that...
 
@@ -191,8 +191,46 @@ A large sample ensures that...
     + one or two tail area, based on ${H_A}$
     + using R, applet, or table.
     
+### Part 3: Inference for a Small Sample Mean.
+
+#### Estimating the mean (based on a small sample)
+
+point estimate ${ \pm }$ margin of error
+
+${ \bar{x} \pm t_{df}^*SE_\bar{x}}$
+
+${ \bar{x} \pm t_{df}^*\dfrac{s}{\sqrt{n}}}$
+
+Degrees of freedom for t statistics for inference on one sample mean: ${df = n - 1}$
 
     
+${ \bar{x} \pm t_{n - 1}^*\dfrac{s}{\sqrt{n}}}$
 
+````{r}
+mean = 52.1;
+s = 45.1;
+n = 22;
+t = abs(qt(0.025, df=n-1));
+se = s/sqrt(n)
+ci1 = mean - t*se;
+ci2 = mean + t*se
+sprintf("t=%.4f, se=%.4f, (%.4f, %.4f)", t, se, ci1, ci2);
+````
 
+#### Hypothesis testing.
 
+Asume:
+
+  ${H_0: \mu = 30 }$ and ${H_A: \mu \ne 30 }$
+  
+
+````{r}
+mu = 30;
+t = (mean - mu)/se;
+pvalue = (1 - pt(t, df = n - 1)) * 2; # Two tails.
+
+sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
+
+````
+
+### Part 3: Inference for Comparing Two Small Sample Means.
