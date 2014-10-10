@@ -234,3 +234,56 @@ sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
 ````
 
 ### Part 3: Inference for Comparing Two Small Sample Means.
+
+${ SE = \sqrt{ \dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2} } }$
+
+${ df = min(n_1 - 1, n_2 - 1) }$
+
+#### Confidence intervals
+
+point estimate ${\pm}$ margin of error
+
+${(\bar{x_1} - \bar{x_2} ) \pm t_{df}^* SE_{ (\bar{x_1} - \bar{x_2}) } }$
+
+
+#### Hypthesis testing
+
+Asume:
+
+${ H_0: \mu_{1} - \mu_{2} = 0  }$
+
+${ H_A: \mu_{1} - \mu_{2} \ne 0  }$
+
+${ T_{df} = \dfrac{obs - null}{ SE } }$
+
+${ T_{df} = \dfrac{(\bar{x_1} - \bar{x_2} ) - (\mu_1 - \mu_2) }{SE_{ (\bar{x_1} - \bar{x_2}) }} }$
+
+
+
+
+
+````{r}
+x1 = 52.1;
+s1 = 45.1;
+n1 = 22;
+
+x2 = 27.1;
+s2 = 26.4;
+n2 = 22;
+
+df = min(n1 - 1, n2 - 1);
+se = sqrt( s1^2/n1 + s2^2/n2 );
+mean = x1 - x2;
+t = abs(qt(0.025, df=df))
+me = t * se;
+ci1 = mean - me;
+ci2 = mean + me;
+sprintf("mean=%.4f, t=%.4f, se=%.4f, (%.4f, %.4f)", mean, t, se, ci1, ci2);
+
+mu = 0;
+t = (mean - mu)/se;
+pvalue = (1 - pt(t, df = df)) * 2; # Two tails.
+
+sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
+
+````
