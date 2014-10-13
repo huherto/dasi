@@ -287,3 +287,149 @@ pvalue = (1 - pt(t, df = df)) * 2; # Two tails.
 sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
 
 ````
+
+### Part 4
+
+#### ANOVA
+
+${H_0}$ : The mean outcome is the same across all categories.
+
+${\mu_1 = \mu_2 = \mu_3 = \mu_4 }$
+
+${H_A}$ At lest one pair of mens are different from each other.
+
+##### Variablity partitioning.
+
+Example: Total variability in vocabulary scores is divided in variability attributed to social class and variability attributed to other factores.
+
+##### Sum of Squares Total (SST)
+
+- Measures the **total variability** in the response variable.
+ 
+- Calculated very similary to variance(except not scaled by the sample size)
+
+${ SST = \sum\limits_{i=1}^{n} ( y_i - \bar{y})^2 }$
+
+${y_i}$ : value of the response variable for each observation.
+
+${\bar{y}}$ : grand mean of the response variable.
+
+##### Sum of Squares Groups (SSG)
+
+- Measures the variability **between groups**.
+
+- **Explained variability:** deviation of group mean from overall mean, weighted by sample size.
+
+${ SSG = \sum\limits_{j=1}^{k} n_j( \bar{y_j} - \bar{y})^2 }$
+
+${ n_j }$ : Number of observation in group j.
+
+${\bar{y_j}}$: Mean of the response variable for group j.
+
+${ \bar{y} }$ : Grand mean of the response variable.
+
+##### Sum of Squares Error (SSE)
+
+- Measures the variability **within groups**.
+
+- **Unexplained variability:** unexplained by the group variable, due to other reasons.
+
+${ SSE = SST - SSG }$
+
+##### Degrees of freedom
+
+- Total: ${ df_T = n - 1}$
+
+- Group: ${ df_G = k - 1}$
+
+- Error: ${ df_E = df_T - df_G }$
+
+##### P-Value
+
+- **p-value** is the probability of at least as large a ratio between the "between" and "within" group variabilities if in fact the means of all groups are equal.
+
+- Area under the F curve, with degrees of freedom ${df_G}$ and ${df_E}$, above the observed F statistic.
+
+
+````{r}
+n = 795;
+k = 4;
+
+DFG= k - 1;
+DFT= n - 1;
+DFE=DFT - DFG;
+
+SSG=236.56;
+SST=3106.36;
+SSE=SST-SSG;
+
+MSG=SSG/DFG;
+MSE=SSE/DFE;
+
+Fvalue = MSG/MSE;
+pvalue = pf(Fvalue, DFG, DFE, lower.tail = FALSE);
+
+sprintf("Group: DFG=%.4f, SSG=%.4f, MSG=%.4f, Fvalue=%.4f,pvalue=%.4f", DFG, SSG, MSG, Fvalue,pvalue);
+sprintf("Error: DFG=%.4f, SSE=%.4f, MSE=%.4f",DFE, SSE, MSE);
+sprintf("Total: DFT=%.4f, SST=%.4f",DFT, SST);
+
+````
+
+##### Conclusion
+
+If p-value is small (less than ${\alpha}$), reject ${H_0}$
+
+  * The data provide convincing evidence that at least on pair of population means are different from each other. (But we can't tell which one)
+  
+If p-value is large, fail to reject ${H_0}$.
+
+  * The data do not provide convincing evidence that one pair of population means are different from each other, the observed differences in sample means are attributable to sampling variability (or chance).
+  
+
+#### Conditions for ANOVA
+
+1. Independence.
+
+  - Within groups.
+  
+  - Between groups.
+  
+2. Approximate normality within each group.
+
+3. Equal variance.
+
+#### Multiple Comparisons
+
+##### Bonferroni correction
+
+${\alpha \star = \alpha / K }$
+
+${ K : number of comparasions, K = \dfrac{k(k-1)}{2} }$
+
+##### Standard error for multiple pairwise comparisons.
+
+${ SE = \sqrt{\dfrac{MSE}{n_1} + \dfrac{MSE}{n_2} } }$
+
+##### Degrees of freedom for multipe pairwise comparisons.
+
+${df = df_E }$
+
+````{r}
+mean1=5.07;
+n1= 41;
+mean2=6.76;
+n2=331;
+k = 4
+mu = 0;
+
+K=k*(k-1)/2;
+alpha=.05/K;
+
+SE = sqrt(MSE/n1 + MSE/n2);
+tscore=abs(((mean1 - mean2) - mu)/SE);
+pvalue=2 * pt(tscore, df=DFE, lower.tail = FALSE);
+sprintf("SE=%.4f, tscore=%.4f, alpha=%.8f, pvalue=%.8f, rejectH0=%s",SE, tscore, alpha, pvalue,(pvalue < alpha));
+
+````
+  
+
