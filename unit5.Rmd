@@ -1,0 +1,128 @@
+---
+title: "Unit5"
+output: html_document
+---
+
+## Unit 5 
+
+#### Inference for Categorical Variables.
+
+Parameter of interest is a proportion.
+
+### Part 1
+
+#### Sampling Variability and the CLT for Proportions
+
+##### CLT for proportions
+
+The distribution of sample proportions is nearly normal, centered at the population proportion, and with a standard error inversely proportional to the sample size.
+
+${SE = \sqrt{\dfrac{p(1-p)}{n}} }$
+
+${ mean = p }$
+
+${\hat{p} \tilde{} N (mean, SE) }$
+
+##### Conditions for the CLT.
+
+1. Independence.
+
+2. Sample size/skew: There should be at least 10 successes and 10 failures in the sample: ${ np \geq 10 }$ and ${ n(1-p) \geq 10 }$
+
+If p is unknown, use ${ \hat{p} }$
+
+````{r}
+p = 0.90;
+n = 200;
+
+if (n * p < 10 || n * (1-p) < 10)
+  "Cannot use this method";
+
+mean=p;
+SE=sqrt(p*(1-p)/n);
+Z=(0.95 - mean)/SE;
+pvalue=1-pnorm(Z);
+# pvalue=1-pnorm(0.95, mean, SE); Alternative.
+
+sprintf("SE=%.4f, Z=%.4f, pvalue=%.8f",SE, Z, pvalue);
+
+````
+#### Confidence Interval for a Proportion
+
+##### Estimating a proportion
+
+point estimate ${\pm}$ margin of error
+
+${ \hat{p} \pm z\star SE_{\hat{p}} }$
+
+##### Standard Error for a proportion
+
+${SE_{\hat{p}} = \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} }$
+
+````{r}
+p = 0.85;
+n = 670;
+SE=sqrt(p*(1-p)/n);
+mean=p;
+me = 1.96*SE;
+sprintf("mean=%.4f, SE=%.4f, (%.4f, %.4f)",p,SE,mean - me, mean + me);
+
+````
+
+##### Calculating the required sample size for desired ME.
+
+${ ME = z^\star\sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} }$
+
+If there is a previous study that we can rely on for the value of ${ \hat{p} }$ use that in the calculation of the required sample size.
+
+If not, use ${ \hat{p} = 0.5 }$
+
+#### Hypothesis Test for a Proportion.
+
+1. Set the hypothesis:
+
+  - ${H_0: p = null value }$
+  
+  - ${H_A: p < }$ or ${ > }$ or ${ \ne }$ null value 
+  
+2. Check conditions:
+
+  - Independence.
+  
+  - Sample size/skew. ${ np \geq 10 }$ and ${ n(1-p) \geq 10 }$
+
+3. Draw sampling distribution, shade p-value, calculate test statistic.
+
+${ Z = \dfrac{\hat{p} - p}{SE} }$, ${SE = \sqrt{\dfrac{p(1-p)}{n}} }$
+
+4. Make a decision, and interpret it in context of the research question:
+
+- If p-value < ${ \alpha }$, reject ${H_0}$; The data provide convincing evidence for ${H_A}$.\
+
+- If p-value > ${ \alpha }$, fail to reject ${H_0}$; the data do not provide convincing evidence for ${H_A}$.
+
+##### When do we use ${\hat{p} }$ vs ${p}$
+
+- Use ${\hat{p}}$ when you don't have ${p}$.
+
+  * Confidence intervals. Use ${\hat{p}}$.
+  
+  * Hypothesis test. Use ${p}$.
+
+````{r}
+p = 0.5;
+phat = 0.6;
+n = 1983
+alpha=0.05;
+
+SE=sqrt(p*(1-p)/n);
+Z= (phat - p)/SE;
+
+pvalue=1 - pnorm(Z);
+sprintf("SE=%.4f, Z=%.4f, pvalue=%.4f, rejectH0=%s", SE, Z, pvalue, (pvalue < alpha));
+
+````
+
+#### Video
+
+##### Section.
