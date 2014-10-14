@@ -122,7 +122,86 @@ pvalue=1 - pnorm(Z);
 sprintf("SE=%.4f, Z=%.4f, pvalue=%.4f, rejectH0=%s", SE, Z, pvalue, (pvalue < alpha));
 
 ````
+### Part 2
 
-#### Video
+#### Estimating the Difference Between Two Proportions.
 
-##### Section.
+point estimate ${\pm}$ margin of error
+
+${(\hat{p}_1 - \hat{p}_2 ) \pm z\star SE_{(\hat{p}_1 - \hat{p}_2 )} }$
+
+${ SE = \sqrt{ \dfrac{\hat{p}_1(1 - \hat{p}_1)}{n_1} + \dfrac{\hat{p}_2(1 - \hat{p}_2)}{n_2}} }$
+
+##### Conditions for inference
+
+1. Independent
+
+  * Within gropups.
+  
+  * Between groups.
+  
+2. Sample skew. 
+
+  * ${ n_1p_1 \geq 10 }$ and ${ n_1(1-p_1) \geq 10 }$ 
+  
+  * ${ n_2p_2 \geq 10 }$ and ${ n_2(1-p_2) \geq 10 }$
+
+````{r}
+p1 = .71;
+n1 = 83;
+p2 = .25
+n2 = 1028;
+
+pe = p1 - p2; # point estimate.
+SE = sqrt(p1*(1-p1)/n1 + p2*(1-p2)/n2);
+me = 1.96 * SE;
+
+sprintf("pe=%.4f, SE=%.4f, (%.4f, %.4f)", pe, SE, pe - me, pe + me);
+
+
+
+````
+
+#### Hypothesis Test for Comparing Two Proportions.
+
+##### Pooled proportion
+
+${ \hat{p_{pool}} = \dfrac{\text{# of successes}_1 + \text{# of successes}_2}{n_1 + n_2} }$
+
+##### Success-failure condition.
+
+${n_1\hat{p_{pool}} \geq 10}$
+
+${n_1(1 - \hat{p_{pool}}) \geq 10}$
+
+
+${n_2\hat{p_{pool}} \geq 10}$
+
+${n_2(1 - \hat{p_{pool}}) \geq 10}$
+
+##### Standard Error
+
+${ SE = \sqrt{ \dfrac{\hat{p}_{pool}(1 - \hat{p}_{pool})}{n_1} + \dfrac{\hat{p}_{pool}(1 - \hat{p}_{pool})}{n_2}} }$
+
+````{r}
+s1 = 34;
+s2 = 61;
+p1=0.38;
+p2=0.50;
+n1 = 90;
+n2 = 122;
+
+pool = (s1 + s2)/(n1 + n2);
+
+if (n1*pool < 10)  "success-failure condition failed";
+if (n1*(1 - pool) < 10)  "success-failure condition failed";
+if (n2*pool < 10) "success-failure condition failed";
+if (n2*(1 - pool) < 10)  "success-failure condition failed";
+
+pe = p1 - p2; # point estimate.
+SE = sqrt(pool*(1-pool)/n1 + pool*(1-pool)/n2);
+z = (pe - 0)/SE;
+pvalue=(1 - pnorm(abs(z))) * 2;
+sprintf("pe=%.4f, SE=%.4f, z=%.4f, pvalue=%.4f, rejectH0=%s", pe, SE, z, pvalue, pvalue < 0.05);
+````
+
