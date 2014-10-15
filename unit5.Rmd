@@ -205,3 +205,44 @@ pvalue=(1 - pnorm(abs(z))) * 2;
 sprintf("pe=%.4f, SE=%.4f, z=%.4f, pvalue=%.4f, rejectH0=%s", pe, SE, z, pvalue, pvalue < 0.05);
 ````
 
+### Part 3
+
+#### Small Sample Proportion
+
+  * What if success-failure condition is not met?
+  
+  * Inference via simulation.
+  
+  * Setting up a simultation assuming ${H_0}$ is true.
+  
+##### Paul the Octopus example
+
+###### Set up hypothesis
+
+${H_0 : p = 0.5}$
+
+${H_A: p > 0.5 }$
+
+${ n = 8 }$
+
+${ \hat{p} = 1 }$
+
+###### Check conditions.
+
+  1. Independence. (Met)
+
+  2. Sample size/skew. (Not met)
+  
+###### Use simulations.
+ 
+* Devise a simulation scheme that assumes the null hypothesis is true.
+
+* Repeat the simulation many times and record relevant sample statistic.
+
+* Calculate p-value as the proportion of simulations that yield a result favorable to the alternative hypothesis.
+
+````{r}
+source("http://bit.ly/dasi_inference")
+paul = factor(c(rep("yes", 8), rep("no",0)), levels = c("yes", "no"))
+inference(paul, est = "proportion", type="ht", method="simulation", success="yes", null = 0.5, alternative ="greater")
+````
