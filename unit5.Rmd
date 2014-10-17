@@ -233,7 +233,7 @@ ${ \hat{p} = 1 }$
 
   2. Sample size/skew. (Not met)
   
-###### Use simulations.
+###### Inference via simulations.
  
 * Devise a simulation scheme that assumes the null hypothesis is true.
 
@@ -245,4 +245,112 @@ ${ \hat{p} = 1 }$
 source("http://bit.ly/dasi_inference")
 paul = factor(c(rep("yes", 8), rep("no",0)), levels = c("yes", "no"))
 inference(paul, est = "proportion", type="ht", method="simulation", success="yes", null = 0.5, alternative ="greater")
+````
+
+#### Back hand example
+````{r}
+source("http://bit.ly/dasi_inference")
+back = factor(c(rep("correct", 11), rep("incorrect", 1)))
+inference(back, est = "proportion", type="ht", method="simulation", success="correct", null = 0.1, alternative ="greater", nsim=100)
+````
+
+#### Comparing two small sample proportions
+
+${H_0 : P_1 - P_2 = 0 }$
+
+${ H_A: P_1 - P_2 \ne 0 }$
+
+##### Conditions for inference
+
+1. Independent
+
+  * Within gropups.
+  
+  * Between groups.
+  
+2. Sample skew. 
+
+  * ${ n_1p_1 \geq 10 }$ and ${ n_1(1-p_1) \geq 10 }$ 
+  
+  * ${ n_2p_2 \geq 10 }$ and ${ n_2(1-p_2) \geq 10 }$
+  
+##### Use similation
+
+
+### Part 4
+
+#### Chi-Square Goodness of Fit Test
+
+Evaluate the distribution of **One Categorical Variable**, > 2 levels.
+
+##### Conditions for the chi-square test:
+
+1. Independence
+
+  * Random sample/assignment.
+  
+  * n < 10% of population.
+  
+  * Each case only contributes to one cell in the table.
+  
+2. Sample Size: Each particular scenario (i.e cell) must have at least 5 expected cases.
+
+#####  The chi-square statistic
+
+When dealing with counts and investigation how far the observed counts are from the expected counts, we use a new test statistic called the **chi-square( ${\chi^2 }$ ) **
+
+${ \chi^2 = \sum\limits_{i=1}^{k} \dfrac{(O - E)^2}{E}  }$
+
+  * O : Observed.
+  
+  * E : Expected.
+  
+  * k : number of cells.
+
+##### Degrees of freedom (df)
+
+
+Influences the shape, center and spread.
+
+${df = k -1 }$
+
+````{r}
+o = c(1920, 347, 19, 84, 130);
+e = c(2007, 302, 20, 73, 98);
+k = length(o);
+chis = sum((o-e)^2/e);
+df = k -1;
+pvalue=pchisq(chis, df, lower.tail=FALSE);
+sprintf("chis=%.4f, df=%.4f, pvalue=%.4f, rejectH0=%s", chis, df, pvalue, (pvalue < 0.05));
+
+````
+#### The Chi-Square Independence Test
+
+Evaluate the distribution of **Two Categorical Variable**, at least one with > 2 levels.
+
+${ \chi^2 = \sum\limits_{i=1}^{k} \dfrac{(O - E)^2}{E}  }$
+
+${df = (R - 1) * (C - 1) }$
+
+  * O : Observed.
+  
+  * E : Expected.
+  
+  * R : number of rows.
+  
+  * C : number of columns.
+
+${ \text{expected count} = \dfrac{( \text{row total} * \text{column total} )}{\text{table total} } }$
+
+````{r}
+o = c(81, 103, 147, 359, 326, 277);
+e = c(113, 110, 108, 327, 319, 316);
+R = 2;
+C = 3;
+k = length(o);
+chis = sum((o-e)^2/e);
+df = (R - 1) * (C -1);
+pvalue=pchisq(chis, df, lower.tail=FALSE);
+sprintf("chis=%.4f, df=%.4f, pvalue=%.4f, rejectH0=%s", chis, df, pvalue, (pvalue < 0.05));
+
 ````
