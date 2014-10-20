@@ -1,0 +1,65 @@
+---
+title: "Quiz5"
+author: "Humberto"
+date: "10/18/2014"
+output: html_document
+---
+
+Q1: None of these options.
+
+*Q2: Observed.
+
+*Q3: H0 : pused = pnot; HA : pused ≠ pnot
+
+* Q4: If in fact 50% of likely voters support this candidate, the probability of obtaining a random sample of 500 likely voters where 52% or more support the candidate is 0.19
+
+
+````{r}
+p = 0.50;
+n = 500;
+
+if (n * p < 10 || n * (1-p) < 10)
+  "Cannot use this method";
+
+mean=p;
+SE=sqrt(p*(1-p)/n);
+Z=(0.52 - mean)/SE;
+pvalue=1-pnorm(Z);
+# pvalue=1-pnorm(0.95, mean, SE); Alternative.
+
+sprintf("SE=%.4f, Z=%.4f, pvalue=%.8f, rejectH0=%s",SE, Z, pvalue,(pvalue < 0.05));
+````
+
+Q5: when comparing p1 and p2 using a theoretical approach, and the null hypothesis is H0 : p1 − p2 = 0
+
+*Q6: Because in hypothesis testing, we assume the null hypothesis is true, hence we calculate SE using the null value of the parameter. In confidence intervals, there is no null value, hence we use the sample proportion(s).
+
+Q7: Chi square test of goodness of fit.
+
+Q8: Roll a 10 sided dice 40 times.
+````{r}
+p = 0.10;
+n = 40;
+phat = .15;
+if (n * p < 10 || n * (1-p) < 10)
+  "Cannot use this method";
+
+SE=sqrt(p*(1-p)/n);
+Z=(phat - p)/SE;
+pvalue=1-pnorm(Z);
+# pvalue=1-pnorm(0.95, mean, SE); Alternative.
+
+sprintf("SE=%.4f, Z=%.4f, pvalue=%.8f, rejectH0=%s",SE, Z, pvalue,(pvalue < 0.05));
+````
+
+Q9: Based on this study we cannot conclude that smoking causes lung cancer, regardless of the p-value.
+
+Q10: False.
+
+Q11: (7*24)/50;
+
+Q12: The difference between the proportions of cards indicating whether or not the subject lost at least 10 pounds will be about 0.
+
+
+
+

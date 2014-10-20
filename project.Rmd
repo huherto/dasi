@@ -1,0 +1,245 @@
+---
+title: "Project: Who is going to control the US senate?"
+author: "Humberto"
+date: "10/18/2014"
+output: html_document
+---
+
+# Part 1: Introduction 
+
+<!-- (5 points)  What is your research question? Why do you care? Why should others care? -- >
+
+Who is going to control the US Senate? Currently the Democratic Party controls the Senate, but elections for the United States Senate will be held on November 4, 2014. 36 of the 100 seats will be contested. 21 of those are currently held by Democrats and 15 by Republicans. 
+
+Knowing the answer of this question before the election is important for both parties because it allows them to focus their resources in the senate races that will allow them to win the control of the Senate. It is important for the voters because it may prompt them to actively participate on the races. 
+
+Who controls the US Senate will define american politics in the next years. It may weaken or strengthen the current presidency. 
+
+# Part 2:  Data 
+<!--
+(10 points)
+Write about the data from your proposal in text (not bullet-point) form. Address these points:
+Data collection: Describe how the data were collected.
+Cases: What are the cases? (Remember: case = units of observation or units of experiment)
+Variables: What are the two variables you will be studying? State the type of each variable.
+Study: What is the type of study? Is it an observational study or an experiment? Explain how you've arrived at your conclusion using information on the sampling and/or experimental design.
+Scope of inference - generalizability: Identify the population of interest, and whether the findings from this analysis can be generalized to that population, or, if not, a subsection of that population. Explain why or why not. Also discuss any potential sources of bias that might prevent generalizability.
+Scope of inference - causality: Can these data be used to establish causal links between the variables of interest? Explain why or why not.
+-->
+
+The data was collected by the Huffington Post. It can be downloaded in this <a href="http://elections.huffingtonpost.com/2014/senate-outlook/huffpost-2014-senate-forecast.csv">link</a> It represents a daily estimation of who is going to win every race taking data from every public released poll and quantifying uncertainty from different sources.
+
+> * The time remaining between the current snapshot and the election.
+>
+> * The possibility that the polls could be wrong or that some sort of major event could shake up a race in ways that the current polls can’t measure.
+>
+> * The proportion of “undecided” voters in the polls. If the undecided proportion is high relative to the expected margin between the  candidates, the outcome of that race must be less certain.
+<a href="http://elections.huffingtonpost.com/2014/senate-outlook" >source</a>
+
+Every case is the result of an individual forecast for every senate race. We have the date of the poll, the number of senate seats, the probability of a republican victory and the probability of a democratic victory. For the purpose of our analysis we only use the latest estimation for each state.
+
+There are 36 variables. One for each senate race. Every variable is a categorical variable with two levels. Probability of republican  victory and probability of democratic victory. The interesting part of the project is that those variables need to be combined into a single categorical variable with two levels. Probability of republican control of the house and probability of democratic control of the house. 
+
+The inference is done assuming we had the elections today. Since the voters preferences can change in time, you cannot generalize this result to the day of the elections. This is an observational study since we are using data that has been collected without our intervention controlling any variables. For that reason we cannot establish causality. 
+
+
+# Part 3: Exploratory data analysis
+
+<!-- (10 points)
+Calculate and discuss relevant descriptive statistics, including summary statistics and visualizations of the data. Also address what the exploratory data analysis suggests about your research question.
+-->
+
+````{r}
+
+polldata = read.csv("huffpost-2014-senate-forecast.csv");
+head(polldata);
+dim(polldata);
+names(polldata);
+
+````
+
+Looking at the means gives us a preliminary idea that the republican party is doing better than the democratic party on these 36 seats.
+````{r}
+summary(polldata$r.prob);
+summary(polldata$d.prob);
+````
+
+We can see how the country(US) preferences have evolved over time.
+
+````{r}
+uspoll = subset(polldata, state == 'US');
+plot(uspoll$date, uspoll$r.prob, type="o");
+
+````
+
+The more recent forecast for every seat.
+````{r}
+read.csv("seatprobs.csv");
+````
+# Part 4: Inference 
+<!-- (20 points)
+State hypotheses
+Check conditions
+State the method(s) to be used and why and how
+Perform inference
+Interpret results
+If applicable, state whether results from various methods agree
+It is your responsibility to figure out the appropriate methodology. What techniques you use to conduct inference will depend on the type of data you're using, and your sample size. All of you should conduct at least a hypothesis test, and report the associated p-value and the conclusion. Those of you comparing two means, two medians, or two proportions should also calculate a confidence interval for the parameter of interest. Those of you working with categorical variables with more than two levels will need to use methods like ANOVA and chi-square testing for which there is no associated confidence interval, and that's OK. If your data fails some conditions and you can't use a theoretical method, then you should use an appropriate simulation based method. 
+If you can use both theoretical and simulation based methods, then choose one and stick with it. You don't have to do both. However if you can't use both, then you need to decide which is appropriate.
+If you can do both a hypothesis test and a confidence interval, do both, and comment on agreement of the results from the two methods. However if your variables do not lend themselves to a confidence interval, that's OK.
+It's essential to make sure the method you're using is appropriate for the dataset and the research question you're working with. -->
+
+## Check conditions
+
+1. Independence.
+
+  * We have the results for the state polls that can be used to calculate a single probability for who controls the senate adding the individuals. So n = 1, and we can conclude that this sample is independent of the other (non-existent) samples.
+
+2. Sample size/skew. ${ np≥10 and n(1−p)≥10 }$
+
+  * Since n = 1, we don't have the necessary number of samples to use a theoretical method. We will use simulation to determine the proportion.
+
+*I am not using Hypthesis Testing, Confidenence Itervals, Chi-Square or ANOVA since those methods are not aplicable to the data available and the research question.*
+
+## Inference by Simulation
+
+We have the probabilities of the individual state elections. We are going to run a random simulation using the individual probabilities for the states to determine if the sum of the states is enough to win the senate.
+
+Step 1. Determine the probabilities of a republican victory on every state.
+
+Step 2. Simulate one election. 
+
+Step 2.1. For every state do the following:
+
+Step 2.1.1. throw a 100 side dice. 
+
+Step 2.1.2. if the number is greater that the probability of a republican victory, consider this a republican victory.
+
+Step 2.1. if the number of republican victories + 30 >= 51 consider this election as republican candidate controls senate.
+
+Step 3. Repeat Step 2; 10,000 times. Count the number of times that the republican party controls the senate to calculate the proportion.
+
+
+### Simulation algorithm
+
+I attempted to do this simulation using R, but it turned up beyond my capabilities. So I decided to implement the simulation using Perl and the data analysis and inference using R.
+
+````
+#!/usr/bin/perl -w
+
+use strict;
+
+open my $handle, '<', "huffpost-2014-senate-forecast.csv";
+chomp(my @lines = <$handle>);
+close $handle;
+
+my %states = ();
+foreach my $line (@lines) {
+
+    my ($date, $state, $seat, $rprob, $dprob) = split(/,/,$line);
+
+    next if $date eq "date";
+    next if $state eq "US";
+
+    $states{ $state . $seat } = $rprob / 100;
+
+}
+
+my @keys = sort { $a cmp $b } keys %states;
+
+sub seatprobs {
+    print "index";
+    foreach my $state ( @keys ) {
+        print ",$state";
+    }
+    print "\n1";
+    foreach my $state ( @keys ) {
+        print ",$states{$state}";
+    }
+    print "\n";    
+}
+
+sub make_election($) {
+    my $i = shift;
+    print $i;
+    my $count = 0;
+    foreach my $state ( @keys ) {
+        my $p = $states{$state};
+        if (rand(1) < $p) {
+            print ",r";
+            $count++;
+        }
+        else {
+            print ",d";
+        }
+    }
+    print ",$count\n";    
+}
+
+
+print "election";
+foreach my $state ( @keys ) {
+    printf ",$state";
+}
+print ",seats\n";    
+for(my $i = 1; $i <= 10000; $i++) {
+    make_election($i);
+}
+print "states=".int(@keys);
+````
+
+## Simulation results analysis
+
+````{r}
+elections = read.csv("elections.csv");
+head(elections);
+seats=elections$seats+30;
+summary(seats);
+hist(seats, breaks=14, main="Seats controlled by republicans");
+fr=table(seats);
+fr
+````
+
+Finally the probability that the republicans control the senate is 
+````{r}
+pRep=sum(fr[8:14])/10000;
+pDem=sum(fr[1:7])/10000;
+sprintf("pRep=%.4f, pDem=%.4f, total=%.4f", pRep, pDem, pRep+pDem);
+````
+
+# Part 5: Conclusion 
+<!-- (5 points)
+Write a brief summary of your findings without repeating your statements from earlier. Include a discussion of what you have learned about your research question and the data you collected, and include ideas for possible future research.
+-->
+
+I came out with the idea of using simulation to determine the who controls the senate  while watching the news. When I started digging into the subject it was evident that it was the method of choice for several forecasters. Some of them build beautiful interactive sites with this information and their models are much more sophisticated than mine. For example the NYT model contemplate the case of independent candidate Greg Orman that has promised he will align with who ever gets the majority, thus changing the control of the house.
+
+Some examples:
+
+  * <a href="http://www.nytimes.com/newsgraphics/2014/senate-model/"> New York Times </a> Republicans 70% chance.
+  
+  * <a href="http://www.politico.com/2014-election/predictions/senate/">Politico</a> No simulation was done.
+  
+  * <a href="http://www.centerforpolitics.org/crystalball/2014-senate/">Sabato's Crystal Ball</a> No simulaton was done.
+  
+  * <a href="http://fivethirtyeight.com/interactives/senate-forecast/"> 538 </a> Republicans 62.2%
+  
+  * <a href="http://www.realclearpolitics.com/epolls/2014/senate/2014_elections_senate_map.html"> Real clear politics</a>No simulation was done.
+  
+  * <a href="http://elections.huffingtonpost.com/2014/senate-outlook"> Huffington Post</a>66 % Republicans.
+
+There is an agreement that republicans have a higher chance of controling the senate, but there are differences on the specific proportion number. Mine is 60.6% while they forecast in the 62.2% - 70% range.
+
+Future ideas:
+
+  * Keep trends of the proportion as the election gets closer to see which party is moving ahead.
+  
+  * Be able to do what-if scenarios on the simulation to determine where money and energy should be spent.
+  
+  * Analyze differences in forecasts. Find the factors that influence the differences between forecasting models.
+
+# Apendix
+
+````{r}
+head(elections, n =50);
+````
