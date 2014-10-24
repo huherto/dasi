@@ -2,7 +2,7 @@
 title: "Unit6"
 author: "humberto"
 date: "10/21/2014"
-output: pdf_document
+output: html_document
 ---
 # Unit 5 
 
@@ -84,4 +84,81 @@ Why least squares ?
 
   - Using the linear model to predict the value of the response variable for a given value of the explanatory variable is called **prediction**
   
+  - Plug in the value of x in the linear model equation.
   
+
+## Extrapolation
+
+  - Applying a model estimate to values outside of the realm of the original data is called **extrapolation**.
+  
+# Part 2: Conditions for Linear Regression
+
+## Linearity 
+
+  - The relationship between the explanatory and the response variable should be linear.
+  
+  - There are methods for fitting a model to non-linear relationship exist, but they are outside the scope of the course.
+  
+  - Check using a scatterplot of the data, or a residuals plot.
+  
+    * Look for an obvious non-linear pattern. 
+  
+## Nearly normal residuals
+
+  - Residuals should be nearly normally distributed, centered at 0.
+  
+  - May not be satisfied if there are unusual observations that don't follow the trend of the rest of the data.
+  
+  - Check using a histogram or normal probability plot of residuals.
+  
+    * In the histogram. Is distribution symmtrical ?
+    
+    * In the historgram. Is distribution centered at zero ?
+    
+    * In then normal probability plot. Are there some values stearing a way from normality?
+
+## Constant variability
+
+  - Variability of points around the least squares line should be roughly constant.
+  
+  - Implies that the variability of residuals around the 0 line should be roughly constant as well.
+  
+  - Also called homosedasticity.
+  
+  - Check using residuals plot.
+  
+    * Does the variablity of the data change at different points of the line ? Fan shape ?
+  
+
+  <a href="http://bitly.com/slr_diag">Checking linear regression</a>
+
+# Part 2: ${R^2}$
+
+  - The strength of the fit of a linear model is most commonly evaluated using ${R^2}$.
+  
+  - Calculated as the square of the correlation coefficient.
+  
+  - Tells us what percent of variability in the response variable is explained by the model.
+  
+  - The remainder of the variability is explained by variables not included in the model.
+  
+  - Alwasy between 0 and 1.
+  
+# Part 2: Regression with categorical explanatory variables.
+
+
+# Part 3: Outliers in regression.
+
+Outliers are points that fall away from the cloud of points.
+
+## Types of outliers
+
+  - Outliers that fall horizontally away from the center of the cloud but don't influence the slope of the regression line are called **leverage points**.
+  
+  - Outliers that actually influence the slope of the regression line are called **influential points**.
+  
+    * Usually high leverage points.
+    
+    * To determine if a point is influential, visualize the regression line with and without the point, and ask: Does the slope of the line change considerably ?
+    
+    
