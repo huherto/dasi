@@ -1,0 +1,32 @@
+---
+title: "Quiz6"
+author: "HH"
+date: "10/26/2014"
+output: html_document
+---
+
+Q1: II
+
+Q2: If the correlation coefficient is 1, then the slope must be 1 as well.
+
+Q3: The variability of residuals should increase as x increases.
+
+Q4: Weaker than the strength of the association shown in the above scatterplot.
+
+Q5: ${1 - (0.75)^2}$
+
+*Q6: Hawaii has higher leverage and is more influential than DC.
+
+Q7: The correlation coefficient measures the strength of the linear relationship, therefore two variables that have a strong non-linear association might still have a low correlation coefficient.
+
+Q8: For each additional week spent in the therapy hospital, we would expect the average number of seizures per week to lower by 0.91 seizures.
+
+Q9: Neighborhoods where no students receive reduced-fee lunches are expected on average to have 47.49% of bike riders wearing helmets.
+
+Q10: The intercept is meaningless.
+
+Q11: -1.1
+
+*Q12: I is higher
+
+*Q13: Total variability in the response variable.

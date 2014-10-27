@@ -1,6 +1,6 @@
 ---
 title: "Unit6"
-author: "humberto"
+author: "HH"
 date: "10/21/2014"
 output: html_document
 ---
@@ -34,15 +34,15 @@ The correlation coefficient is always between -1 (perfect negative linear associ
 
 R = 0 indicates no linear relationship.
 
-The correlation coefficient is unitless, and is not affected by changes in the center or scale of either variable. (such as unit conversions)
+The correlation coefficient is unit less, and is not affected by changes in the center or scale of either variable. (such as unit conversions)
 
 The correlation of X with Y is the same as of Y with X.
 
-The correlation coefficient is sensitive to outliers/
+The correlation coefficient is sensitive to outliers.
 
 # Part 2: Residuals
 
-Diference between the observed and predicted y.
+Difference between the observed and predicted y.
 
 residuals:${ e_i = y_i - \hat{y} }$
 
@@ -54,7 +54,7 @@ Why least squares ?
   
   * Easier to compute.
   
-  * In many applicaitons, a residual twice as large as another is more than twice as bad.
+  * In many applications, a residual twice as large as another is more than twice as bad.
   
   
   Least squares line ${ \hat{y} = \beta_0 + \beta_1x}$
@@ -99,7 +99,7 @@ Why least squares ?
   
   - There are methods for fitting a model to non-linear relationship exist, but they are outside the scope of the course.
   
-  - Check using a scatterplot of the data, or a residuals plot.
+  - Check using a scatter plot of the data, or a residuals plot.
   
     * Look for an obvious non-linear pattern. 
   
@@ -111,11 +111,11 @@ Why least squares ?
   
   - Check using a histogram or normal probability plot of residuals.
   
-    * In the histogram. Is distribution symmtrical ?
+    * In the histogram. Is distribution symmetrical ?
     
-    * In the historgram. Is distribution centered at zero ?
+    * In the histogram. Is distribution centered at zero ?
     
-    * In then normal probability plot. Are there some values stearing a way from normality?
+    * In then normal probability plot. Are there some values steering a way from normality?
 
 ## Constant variability
 
@@ -127,7 +127,7 @@ Why least squares ?
   
   - Check using residuals plot.
   
-    * Does the variablity of the data change at different points of the line ? Fan shape ?
+    * Does the variability of the data change at different points of the line ? Fan shape ?
   
 
   <a href="http://bitly.com/slr_diag">Checking linear regression</a>
@@ -142,10 +142,11 @@ Why least squares ?
   
   - The remainder of the variability is explained by variables not included in the model.
   
-  - Alwasy between 0 and 1.
+  - Always between 0 and 1.
   
 # Part 2: Regression with categorical explanatory variables.
 
+Empty summary.
 
 # Part 3: Outliers in regression.
 
@@ -161,4 +162,35 @@ Outliers are points that fall away from the cloud of points.
     
     * To determine if a point is influential, visualize the regression line with and without the point, and ask: Does the slope of the line change considerably ?
     
-    
+# Part 4: Inference for linear regresssion.
+
+## Hypothesis testing for significance of predictor.
+
+Is the explanatory variable a significant predictor of the response variable?
+
+${H_0}$ Nothing is going on. ${H_0: \beta_1 = 0 }$
+
+  The explanatory variable is not a significant predictor of the response variable. i.e no relationship -> slope of the relationship is 0.
+  
+${H_A}$ Something is going on. ${H_A: \beta_1 \ne 0 }$
+
+  The explanatory variable is a significant predictor of the response variable. i.e. relationship -> slope of the relationship is different than 0.
+  
+### t statistic
+
+${ T = \dfrac{b_1 - 0}{SE_{b_1} }  }$ with ${df = n - 2 }$ 
+
+## Confidence interval for slope.
+
+${ b_1 \pm t^*_{df}SE_{b_1} }$
+
+````{r}
+b1= .9014;
+se=0.0963;
+tstar = abs(qt(0.025, df = 25));
+sprintf("b1=%.4f, tstar=%.4f, (%.4f, %.4f)",b1, tstar, b1-tstar*se, b1+tstar*se);
+
+````
+
+# Part 4: Variability partitioning.
+
