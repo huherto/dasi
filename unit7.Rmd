@@ -1,0 +1,98 @@
+---
+title: "Unit7"
+author: "HH"
+date: "10/28/2014"
+output: html_document
+---
+
+# Unit 7: Introduction.
+
+Multiple predictors.
+Inference for MLR.
+Model Selection.
+Model Diagnostics.
+
+# Unit 7, Part 1: Multiple Predictors.
+
+````{r}
+library(DAAG);
+data(allbacks);
+book_mlr=lm(weight ~ volume + cover, data = allbacks);
+summary(book_mlr);
+
+y = 197 + .72*450 - 184.05*0;
+y
+````
+
+## Interaction variables
+
+Are used if the slopes are not the same. (Beyond the scope of the book)
+
+# Unit 7, Part 1: Adjusted R Squared
+
+````{r}
+
+states = read.csv("http://d396qusza40orc.cloudfront.net/statistics/lec_resources/states.csv");
+
+pov_slr = lm(poverty ~ female_house, data = states);
+
+summary(pov_slr);
+
+pov_mlr = lm(poverty ~ female_house + white, data = states);
+
+summary(pov_mlr);
+
+anova(pov_mlr);
+
+````
+
+To determine if adding a predictor was worthwhile.
+
+${R{adj}^2 = 1 - ( \dfrac{SEE}{STT} * \dfrac{n - 1}{n - k -1} ) }$
+
+
+````{r}
+SSE=339.47;
+SST=480.25;
+n=51;
+k=2;
+
+R2_adj = 1 - (SSE/SST * (n - 1)/(n -k - 1));
+R2_adj;
+
+````
+
+When any variable is added to the model ${R^2}$ increases.
+
+But if the added variable doesn't really provide any new information, or is completely unrelated, adjusted ${R^2}$ does not increase.
+
+- k is never negative . adjusted ${ R{adj}^2 < R^2 }$
+
+- ${ R{adj}^2  }$ applies a penalty for the number of predictors included in the model.
+
+- We choose models with higher ${ R{adj}^2  }$
+
+# Unit 7, Part 1: Collinearity and Parsimony.
+
+## Collinearity
+
+  - Two predictor variables are said to be **collinear** when they are correlated with each other.
+  
+  - Remember: Predictors are also called independent variables, so they should be independent of each other.
+  
+  - Inclusion of collinear predictors(also called **multicollinearity**) complicates model estimation.
+  
+
+## Parsimony
+
+  - Avoid adding predictors associated with each other because often times the addition of such variable brings nothing new to the table.
+
+  - Prefer the simplest best model, i.e. the **parsimonious model**
+  
+    * Occam's razor: Among competing hypothesis, the one with the fewest assumptions should be selected.
+    
+  - Addition of collinear variables can result in biased estimates of the regression parameters.
+  
+  - While it's impossible to avoid collinearity form arising in observational data, experiments are usually designed to control for correlated predictors.
+  
+
