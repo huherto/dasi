@@ -1,0 +1,31 @@
+---
+title: "Quiz7"
+author: "HH"
+date: "11/02/2014"
+output: html_document
+---
+*Q1: 90.
+
+Q2: 42.56-(1.14x26)+5.26
+
+Q3: All else held constant, the model predicts that later model cars will get an average of 0.72 additional miles per gallon for each year difference in the date of manufacture.
+
+Q4: The 95% confidence interval for the slope of the displacement coefficient can be calculated as −0.04±(1.96∗−16.42).
+
+Q5:
+
+````{r}
+SST = 22790 + 57737 + 7003;
+SSE = 22790;
+1 - SSE/SST;
+````
+
+Q6: When dealing with collinearity, a useful strategy is to add more predictors to the model, one at a time, until the bad effects of collinearity disappear from the analysis.
+
+Q7: Constant variability of residual
+
+Q8: The simplest model with the highest predictive power.
+
+Q9: collinearity
+
+Q10: Your final model has a higher adjusted R2 than any of the smaller models you tried.

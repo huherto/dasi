@@ -93,7 +93,7 @@ But if the added variable doesn't really provide any new information, or is comp
     
   - Addition of collinear variables can result in biased estimates of the regression parameters.
   
-  - While it's impossible to avoid collinearity form arising in observational data, experiments are usually designed to control for correlated predictors.
+  - While it's impossible to avoid collinearity from arising in observational data, experiments are usually designed to control for correlated predictors.
   
 # Unit 7, Part 2: Inference for MLR
 
@@ -185,7 +185,7 @@ sprintf("tstar=%.4f, (%.4f, %.4f) ",tstar, pe - me, pe + me);
   
 ## Adjusted ${R^2}$ vs p-value
 
-  - p-value: findind significant predictors.
+  - p-value: finding significant predictors.
   
   - adjusted ${R^2}$ : more reliable predictions.
   
@@ -227,7 +227,7 @@ summary(cog_final);
 
 # Uni 7, Part 4: Diagnostics for MLR.
 
-## 1 Linear relationships between x and y.
+## 1. Linear relationships between x and y.
 
   - Each (numerical) explanatory variable needs to be linearly related to the response variable.
   
@@ -245,7 +245,7 @@ plot(cog_final$residuals ~ cognitive$mom_iq);
 
 ````
 
-## 2 Nearly normal residuals with mean 0
+## 2. Nearly normal residuals with mean 0
 
   - Some residuals will be positive and some negative.
   
@@ -262,7 +262,7 @@ qqline(cog_final$residuals);
 
 ````
 
-## 3 Constant variability of residuals.
+## 3. Constant variability of residuals.
 
   - Residuals should be equally variable for low and high values of the predicted response variable.
   
@@ -280,7 +280,7 @@ plot(abs(cog_final$residuals) ~ cog_final$fitted);
 
 ````
 
-## 4 Independent residuals.
+## 4. Independent residuals.
 
   - Independent residuals -> independent observations.
   

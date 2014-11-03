@@ -1,6 +1,6 @@
 ---
 title: "Project: Who is going to control the US senate?"
-author: "Humberto"
+author: "HH"
 date: "10/18/2014"
 output: html_document
 ---
@@ -202,8 +202,8 @@ fr
 
 Finally the probability that the republicans control the senate is 
 ````{r}
-pRep=sum(fr[8:14])/10000;
-pDem=sum(fr[1:7])/10000;
+pRep=sum(fr[7:13])/10000;
+pDem=sum(fr[1:6])/10000;
 sprintf("pRep=%.4f, pDem=%.4f, total=%.4f", pRep, pDem, pRep+pDem);
 ````
 
