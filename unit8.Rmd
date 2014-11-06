@@ -1,0 +1,18 @@
+---
+title: "Unit8"
+author: "HH"
+date: "11/03/2014"
+output: html_document
+---
+````{r}
+n = 20;
+p10 = .5;
+p20 = 1 - p10;
+y = 4;
+
+pd10 =sum(dbinom(y, n, .1));
+pd20 =sum(dbinom(y, n, .2));
+
+p10d = (pd10 * p10)/(pd10*p10 + pd20*p20);
+p10d
+````
