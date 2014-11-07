@@ -81,7 +81,7 @@ sprintf("SE=%.4f, zscore=%.4f, p-value=%.4f, reject H0=%s", SE, zscore, pvalue, 
 
 ````
 
-Q15:
+Q15: (371.88, 458.12)
 
 ````{r}
 conf=.95;
