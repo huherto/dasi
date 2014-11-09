@@ -10,8 +10,7 @@ Introduction
 - Working with small samples.
 - Comparing many means.
 
-## Part 1:
-### Part 1: Hypothesis Testing for Paired Data
+### Unit 4, Part 1: Hypothesis Testing for Paired Data
 
 Analyzing paired data:
 
@@ -65,7 +64,7 @@ pvalue=pnorm(z) * 2
 c(se, z, pvalue)
 ````
 
-### Part 1: Confidence Intervals for Paired Data
+### Unit 4, Part 1: Confidence Intervals for Paired Data
 
 Estimated the difference between paired means.
 
@@ -86,7 +85,7 @@ c(se, z, ci1, ci2)
 
 ````
 
-### Part 1: Comparing Independent Means.
+### Unit 4, Part 1: Comparing Independent Means.
 - Confidence intervals.
 - Hypothesis tests
 
@@ -148,8 +147,7 @@ if (pvalue < .05) {
 }
 ````
 
-## Part 2:
-### Part 2: Bootstraping
+### Unit 4, Part 2: Bootstraping
 
 1. Tale a bootstrap sample - random sample taken *with replacement* from the original sample, of the same size as the original sample.
 
@@ -157,8 +155,7 @@ if (pvalue < .05) {
 
 3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics.
 
-## Part 3:
-### Part 3: t Distribution
+### Unit 4, Part 3: t Distribution
 
 A large sample ensures that...
 
@@ -191,7 +188,7 @@ A large sample ensures that...
     + one or two tail area, based on ${H_A}$
     + using R, applet, or table.
     
-### Part 3: Inference for a Small Sample Mean.
+### Unit 4, Part 3: Inference for a Small Sample Mean.
 
 #### Estimating the mean (based on a small sample)
 
@@ -233,7 +230,7 @@ sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
 
 ````
 
-### Part 3: Inference for Comparing Two Small Sample Means.
+### Unit 4, Part 3: Inference for Comparing Two Small Sample Means.
 
 ${ SE = \sqrt{ \dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2} } }$
 
@@ -288,15 +285,15 @@ sprintf("t=%.4f, pvalue=%.4f, rejectH0=%s", t, pvalue, (pvalue < 0.05));
 
 ````
 
-### Part 4
+### Unit 4, Part 4: 1 Comparing More Than Two Means
 
-#### ANOVA
+### Unit 4, Part 4: 2 ANOVA
 
 ${H_0}$ : The mean outcome is the same across all categories.
 
 ${\mu_1 = \mu_2 = \mu_3 = \mu_4 }$
 
-${H_A}$ At lest one pair of mens are different from each other.
+${H_A}$ At lest one pair of means are different from each other.
 
 ##### Variablity partitioning.
 
@@ -386,7 +383,7 @@ If p-value is large, fail to reject ${H_0}$.
   * The data do not provide convincing evidence that one pair of population means are different from each other, the observed differences in sample means are attributable to sampling variability (or chance).
   
 
-#### Conditions for ANOVA
+### Unit 4, Part4: 3 Conditions for ANOVA
 
 1. Independence.
 
@@ -398,13 +395,13 @@ If p-value is large, fail to reject ${H_0}$.
 
 3. Equal variance.
 
-#### Multiple Comparisons
+### Unit 4, Part 4: 4 Multiple Comparisons
 
 ##### Bonferroni correction
 
 ${\alpha \star = \alpha / K }$
 
-${ K : number of comparasions, K = \dfrac{k(k-1)}{2} }$
+${ K : \text{number of comparisons}, K = \dfrac{k(k-1)}{2} }$
 
 ##### Standard error for multiple pairwise comparisons.
 

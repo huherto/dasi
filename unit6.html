@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
-<meta name="author" content="humberto" />
+<meta name="author" content="HH" />
 
 <meta name="date" content="2014-10-21" />
 
@@ -54,7 +54,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="header">
 <h1 class="title">Unit6</h1>
-<h4 class="author"><em>humberto</em></h4>
+<h4 class="author"><em>HH</em></h4>
 <h4 class="date"><em>10/21/2014</em></h4>
 </div>
 
@@ -82,14 +82,14 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>The sign of the correlation coefficient indicates the direction of association.</p>
 <p>The correlation coefficient is always between -1 (perfect negative linear association) and 1 (perfect positive linear association).</p>
 <p>R = 0 indicates no linear relationship.</p>
-<p>The correlation coefficient is unitless, and is not affected by changes in the center or scale of either variable. (such as unit conversions)</p>
+<p>The correlation coefficient is unit less, and is not affected by changes in the center or scale of either variable. (such as unit conversions)</p>
 <p>The correlation of X with Y is the same as of Y with X.</p>
-<p>The correlation coefficient is sensitive to outliers/</p>
+<p>The correlation coefficient is sensitive to outliers.</p>
 </div>
 </div>
 <div id="part-2-residuals" class="section level1">
 <h1>Part 2: Residuals</h1>
-<p>Diference between the observed and predicted y.</p>
+<p>Difference between the observed and predicted y.</p>
 <p>residuals:<span class="math">\({ e_i = y_i - \hat{y} }\)</span></p>
 </div>
 <div id="part-2-least-squares-line" class="section level1">
@@ -98,7 +98,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <ul>
 <li><p>Most commonly used.</p></li>
 <li><p>Easier to compute.</p></li>
-<li><p>In many applicaitons, a residual twice as large as another is more than twice as bad.</p></li>
+<li><p>In many applications, a residual twice as large as another is more than twice as bad.</p></li>
 </ul>
 <p>Least squares line <span class="math">\({ \hat{y} = \beta_0 + \beta_1x}\)</span></p>
 <p><span class="math">\({ x }\)</span>: explanatory.</p>
@@ -136,7 +136,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <ul>
 <li><p>The relationship between the explanatory and the response variable should be linear.</p></li>
 <li><p>There are methods for fitting a model to non-linear relationship exist, but they are outside the scope of the course.</p></li>
-<li><p>Check using a scatterplot of the data, or a residuals plot.</p>
+<li><p>Check using a scatter plot of the data, or a residuals plot.</p>
 <ul>
 <li>Look for an obvious non-linear pattern.</li>
 </ul></li>
@@ -149,9 +149,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>May not be satisfied if there are unusual observations that don’t follow the trend of the rest of the data.</p></li>
 <li><p>Check using a histogram or normal probability plot of residuals.</p>
 <ul>
-<li><p>In the histogram. Is distribution symmtrical ?</p></li>
-<li><p>In the historgram. Is distribution centered at zero ?</p></li>
-<li><p>In then normal probability plot. Are there some values stearing a way from normality?</p></li>
+<li><p>In the histogram. Is distribution symmetrical ?</p></li>
+<li><p>In the histogram. Is distribution centered at zero ?</p></li>
+<li><p>In then normal probability plot. Are there some values steering a way from normality?</p></li>
 </ul></li>
 </ul>
 </div>
@@ -163,7 +163,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>Also called homosedasticity.</p></li>
 <li><p>Check using residuals plot.</p>
 <ul>
-<li>Does the variablity of the data change at different points of the line ? Fan shape ?</li>
+<li>Does the variability of the data change at different points of the line ? Fan shape ?</li>
 </ul></li>
 </ul>
 <p><a href="http://bitly.com/slr_diag">Checking linear regression</a></p>
@@ -176,11 +176,12 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>Calculated as the square of the correlation coefficient.</p></li>
 <li><p>Tells us what percent of variability in the response variable is explained by the model.</p></li>
 <li><p>The remainder of the variability is explained by variables not included in the model.</p></li>
-<li><p>Alwasy between 0 and 1.</p></li>
+<li><p>Always between 0 and 1.</p></li>
 </ul>
 </div>
 <div id="part-2-regression-with-categorical-explanatory-variables." class="section level1">
 <h1>Part 2: Regression with categorical explanatory variables.</h1>
+<p>Empty summary.</p>
 </div>
 <div id="part-3-outliers-in-regression." class="section level1">
 <h1>Part 3: Outliers in regression.</h1>
@@ -189,9 +190,40 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <h2>Types of outliers</h2>
 <ul>
 <li><p>Outliers that fall horizontally away from the center of the cloud but don’t influence the slope of the regression line are called <strong>leverage points</strong>.</p></li>
-<li><p>Outliers that actually influence the slope of the regression line are called <strong>influential points</strong>.</p></li>
+<li><p>Outliers that actually influence the slope of the regression line are called <strong>influential points</strong>.</p>
+<ul>
+<li><p>Usually high leverage points.</p></li>
+<li><p>To determine if a point is influential, visualize the regression line with and without the point, and ask: Does the slope of the line change considerably ?</p></li>
+</ul></li>
 </ul>
 </div>
+</div>
+<div id="part-4-inference-for-linear-regresssion." class="section level1">
+<h1>Part 4: Inference for linear regresssion.</h1>
+<div id="hypothesis-testing-for-significance-of-predictor." class="section level2">
+<h2>Hypothesis testing for significance of predictor.</h2>
+<p>Is the explanatory variable a significant predictor of the response variable?</p>
+<p><span class="math">\({H_0}\)</span> Nothing is going on. <span class="math">\({H_0: \beta_1 = 0 }\)</span></p>
+<p>The explanatory variable is not a significant predictor of the response variable. i.e no relationship -&gt; slope of the relationship is 0.</p>
+<p><span class="math">\({H_A}\)</span> Something is going on. <span class="math">\({H_A: \beta_1 \ne 0 }\)</span></p>
+<p>The explanatory variable is a significant predictor of the response variable. i.e. relationship -&gt; slope of the relationship is different than 0.</p>
+<div id="t-statistic" class="section level3">
+<h3>t statistic</h3>
+<p><span class="math">\({ T = \dfrac{b_1 - 0}{SE_{b_1} }  }\)</span> with <span class="math">\({df = n - 2 }\)</span></p>
+</div>
+</div>
+<div id="confidence-interval-for-slope." class="section level2">
+<h2>Confidence interval for slope.</h2>
+<p><span class="math">\({ b_1 \pm t^*_{df}SE_{b_1} }\)</span></p>
+<pre class="r"><code>b1= .9014;
+se=0.0963;
+tstar = abs(qt(0.025, df = 25));
+sprintf(&quot;b1=%.4f, tstar=%.4f, (%.4f, %.4f)&quot;,b1, tstar, b1-tstar*se, b1+tstar*se);</code></pre>
+<pre><code>## [1] &quot;b1=0.9014, tstar=2.0595, (0.7031, 1.0997)&quot;</code></pre>
+</div>
+</div>
+<div id="part-4-variability-partitioning." class="section level1">
+<h1>Part 4: Variability partitioning.</h1>
 </div>
 
 

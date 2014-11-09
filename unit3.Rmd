@@ -7,25 +7,25 @@ output: html_document
 
 # Unit 3: Introduction.
 
-# Unit 3: Part 1: (1) Sampling Variability and CLT
+## Unit 3: Part 1: (1) Sampling Variability and CLT
 
-# Unit 3: Part 1: (2) CLT (for the mean) examples\
+## Unit 3: Part 1: (2) CLT (for the mean) examples\
 
-# Unit 3: Part 2: (1) Confidence Interval (for a mean)
+## Unit 3: Part 2: (1) Confidence Interval (for a mean)
 
 A confidence interval is a plausible range of values for the population parameter.
 
-## Central Limit Theorem(CLT):
+### Central Limit Theorem(CLT):
 
 ${\bar{x} \tilde{} N(mean = \mu, SE = \dfrac{\sigma}{\sqrt{n}} )}$
 
-## Confidence interval for a population mean:
+### Confidence interval for a population mean:
 
 Computed as the sample mean plus/minus a margin of error (critical value corresponding to the middle XX% of the normal distribution times the standard error of the sampling distribution).
 
 ${ \bar{x} \pm z^* \dfrac{s}{\sqrt{n}}  }$
 
-### Conditions
+#### Conditions
 
   1. Independence
     
@@ -49,13 +49,13 @@ zstar*(sd/sqrt(n));
 
 ````
 
-# Unit 3, Part 2: (2) Accuracy vs precision
+## Unit 3, Part 2: (2) Accuracy vs precision
 
-## Confidence level
+### Confidence level
 
 When the confidence level increases the accuracy increases but the precision decreases.
 
-# Unit 3, Part 2: (3) Required sample size for ME
+## Unit 3, Part 2: (3) Required sample size for ME
 
 ${ME=z^*\dfrac{s}{\sqrt{n} } \rightarrow }$
 ${n = \dfrac{z^*s}{ME} }$
@@ -69,15 +69,15 @@ zstar = abs(qnorm((1 - conf)/2));
 n=((zstar * s)/me)^2;
 sprintf("zstar=%.4f, n=%.4f ",zstar, n);
 ````
-# Unit 3, Part 2: (4) CI (for the mean) examples
+## Unit 3, Part 2: (4) CI (for the mean) examples
 
-# Unit 3, Part 3: (1) Another Introduction for Inference
+## Unit 3, Part 3: (1) Another Introduction for Inference
 
 1. Nothing is going on. Due to chance. Null hypothesis.
 
 2. There is something going on. e.g Discrimination. Alternative hypothesis.
 
-## HT framework
+### HT framework
 
 - Start with a null hypothesis (${H_0}) that represents the status quo.
 
@@ -87,7 +87,7 @@ sprintf("zstar=%.4f, n=%.4f ",zstar, n);
 
 - If the test results suggest that the data do not provide convincing evidence for the alternative hypothesis, we stick with the null hypothesis. If we do, then we reject the null hypothesis in favor of the alternative.
 
-# Unit 3, Part 3: (2) Hypothesis Testing (for a mean)
+## Unit 3, Part 3: (2) Hypothesis Testing (for a mean)
 
  ${H_0}$ Claim to be tested.
  
@@ -95,7 +95,7 @@ sprintf("zstar=%.4f, n=%.4f ",zstar, n);
  
  The skeptic will not abandon the ${H_0}$ unless the evidence in favor of the ${H_A}$ is so strong that she rejects ${H_0}$ in favor of ${H_A}$
  
-# Unit 3, Part 3: (3) HT (for the mean) examples
+## Unit 3, Part 3: (3) HT (for the mean) examples
 
 ${H_0 \mu  = 3}$
 
@@ -122,15 +122,15 @@ sprintf("SE=%.4f, zscore=%.4f, p-value=%.4f, reject H0=%s", SE, zscore, pvalue, 
 
 ````
 
-## Decision based on the p-value.
+### Decision based on the p-value.
 
  - if the p-value is very low (lower than ${\alpha}$) we reject ${H_0}$
 
  - otherwise. Fail to reject ${H_0}$  
 
-# Unit 3, Part 4: Inference for Other Estimators.
+## Unit 3, Part 4: Inference for Other Estimators.
 
-# Unit 3, Part 5: (1) Decision Errors.
+## Unit 3, Part 5: (1) Decision Errors.
 
 
 

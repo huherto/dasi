@@ -7,10 +7,13 @@ output: html_document
 
 # Unit 7: Introduction.
 
-Multiple predictors.
-Inference for MLR.
-Model Selection.
-Model Diagnostics.
+- Multiple predictors.
+
+- Inference for MLR.
+
+- Model Selection.
+
+- Model Diagnostics.
 
 # Unit 7, Part 1: Multiple Predictors.
 
@@ -90,7 +93,7 @@ But if the added variable doesn't really provide any new information, or is comp
   - Prefer the simplest best model, i.e. the **parsimonious model**
   
     * Occam's razor: Among competing hypothesis, the one with the fewest assumptions should be selected.
-    
+
   - Addition of collinear variables can result in biased estimates of the regression parameters.
   
   - While it's impossible to avoid collinearity from arising in observational data, experiments are usually designed to control for correlated predictors.
@@ -123,7 +126,7 @@ Since p-value < 0.05, the model as a whole is significant.
 
 ${ H_0: \beta_1 = 0 }$, when all other variables are included in the model.
 
-${ H_0: \beta_1 \ne 0 }$, when all other variables are included in the model.
+${ H_A: \beta_1 \ne 0 }$, when all other variables are included in the model.
 
     ##             Estimate Std. Error t value Pr(>|t|)    
     ## (Intercept)  19.5924     9.2191    2.13    0.034 *  

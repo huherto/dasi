@@ -61,26 +61,25 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="unit-3-introduction." class="section level1">
 <h1>Unit 3: Introduction.</h1>
+<div id="unit-3-part-1-1-sampling-variability-and-clt" class="section level2">
+<h2>Unit 3: Part 1: (1) Sampling Variability and CLT</h2>
 </div>
-<div id="unit-3-part-1-1-sampling-variability-and-clt" class="section level1">
-<h1>Unit 3: Part 1: (1) Sampling Variability and CLT</h1>
+<div id="unit-3-part-1-2-clt-for-the-mean-examples" class="section level2">
+<h2>Unit 3: Part 1: (2) CLT (for the mean) examples<br /></h2>
 </div>
-<div id="unit-3-part-1-2-clt-for-the-mean-examples" class="section level1">
-<h1>Unit 3: Part 1: (2) CLT (for the mean) examples<br /></h1>
-</div>
-<div id="unit-3-part-2-1-confidence-interval-for-a-mean" class="section level1">
-<h1>Unit 3: Part 2: (1) Confidence Interval (for a mean)</h1>
+<div id="unit-3-part-2-1-confidence-interval-for-a-mean" class="section level2">
+<h2>Unit 3: Part 2: (1) Confidence Interval (for a mean)</h2>
 <p>A confidence interval is a plausible range of values for the population parameter.</p>
-<div id="central-limit-theoremclt" class="section level2">
-<h2>Central Limit Theorem(CLT):</h2>
+<div id="central-limit-theoremclt" class="section level3">
+<h3>Central Limit Theorem(CLT):</h3>
 <p><span class="math">\({\bar{x} \tilde{} N(mean = \mu, SE = \dfrac{\sigma}{\sqrt{n}} )}\)</span></p>
 </div>
-<div id="confidence-interval-for-a-population-mean" class="section level2">
-<h2>Confidence interval for a population mean:</h2>
+<div id="confidence-interval-for-a-population-mean" class="section level3">
+<h3>Confidence interval for a population mean:</h3>
 <p>Computed as the sample mean plus/minus a margin of error (critical value corresponding to the middle XX% of the normal distribution times the standard error of the sampling distribution).</p>
 <p><span class="math">\({ \bar{x} \pm z^* \dfrac{s}{\sqrt{n}}  }\)</span></p>
-<div id="conditions" class="section level3">
-<h3>Conditions</h3>
+<div id="conditions" class="section level4">
+<h4>Conditions</h4>
 <ol style="list-style-type: decimal">
 <li><p>Independence</p>
 <ul>
@@ -103,15 +102,15 @@ zstar*(sd/sqrt(n));</code></pre>
 </div>
 </div>
 </div>
-<div id="unit-3-part-2-2-accuracy-vs-precision" class="section level1">
-<h1>Unit 3, Part 2: (2) Accuracy vs precision</h1>
-<div id="confidence-level" class="section level2">
-<h2>Confidence level</h2>
+<div id="unit-3-part-2-2-accuracy-vs-precision" class="section level2">
+<h2>Unit 3, Part 2: (2) Accuracy vs precision</h2>
+<div id="confidence-level" class="section level3">
+<h3>Confidence level</h3>
 <p>When the confidence level increases the accuracy increases but the precision decreases.</p>
 </div>
 </div>
-<div id="unit-3-part-2-3-required-sample-size-for-me" class="section level1">
-<h1>Unit 3, Part 2: (3) Required sample size for ME</h1>
+<div id="unit-3-part-2-3-required-sample-size-for-me" class="section level2">
+<h2>Unit 3, Part 2: (3) Required sample size for ME</h2>
 <p><span class="math">\({ME=z^*\dfrac{s}{\sqrt{n} } \rightarrow }\)</span> <span class="math">\({n = \dfrac{z^*s}{ME} }\)</span></p>
 <pre class="r"><code>conf=.90;
 s = 18;
@@ -122,17 +121,17 @@ n=((zstar * s)/me)^2;
 sprintf(&quot;zstar=%.4f, n=%.4f &quot;,zstar, n);</code></pre>
 <pre><code>## [1] &quot;zstar=1.6449, n=54.7873 &quot;</code></pre>
 </div>
-<div id="unit-3-part-2-4-ci-for-the-mean-examples" class="section level1">
-<h1>Unit 3, Part 2: (4) CI (for the mean) examples</h1>
+<div id="unit-3-part-2-4-ci-for-the-mean-examples" class="section level2">
+<h2>Unit 3, Part 2: (4) CI (for the mean) examples</h2>
 </div>
-<div id="unit-3-part-3-1-another-introduction-for-inference" class="section level1">
-<h1>Unit 3, Part 3: (1) Another Introduction for Inference</h1>
+<div id="unit-3-part-3-1-another-introduction-for-inference" class="section level2">
+<h2>Unit 3, Part 3: (1) Another Introduction for Inference</h2>
 <ol style="list-style-type: decimal">
 <li><p>Nothing is going on. Due to chance. Null hypothesis.</p></li>
 <li><p>There is something going on. e.g Discrimination. Alternative hypothesis.</p></li>
 </ol>
-<div id="ht-framework" class="section level2">
-<h2>HT framework</h2>
+<div id="ht-framework" class="section level3">
+<h3>HT framework</h3>
 <ul>
 <li><p>Start with a null hypothesis (${H_0}) that represents the status quo.</p></li>
 <li><p>We also have an alternate hypothesis that represents our research question.</p></li>
@@ -141,14 +140,14 @@ sprintf(&quot;zstar=%.4f, n=%.4f &quot;,zstar, n);</code></pre>
 </ul>
 </div>
 </div>
-<div id="unit-3-part-3-2-hypothesis-testing-for-a-mean" class="section level1">
-<h1>Unit 3, Part 3: (2) Hypothesis Testing (for a mean)</h1>
+<div id="unit-3-part-3-2-hypothesis-testing-for-a-mean" class="section level2">
+<h2>Unit 3, Part 3: (2) Hypothesis Testing (for a mean)</h2>
 <p><span class="math">\({H_0}\)</span> Claim to be tested.</p>
 <p><span class="math">\({H_A}\)</span></p>
 <p>The skeptic will not abandon the <span class="math">\({H_0}\)</span> unless the evidence in favor of the <span class="math">\({H_A}\)</span> is so strong that she rejects <span class="math">\({H_0}\)</span> in favor of <span class="math">\({H_A}\)</span></p>
 </div>
-<div id="unit-3-part-3-3-ht-for-the-mean-examples" class="section level1">
-<h1>Unit 3, Part 3: (3) HT (for the mean) examples</h1>
+<div id="unit-3-part-3-3-ht-for-the-mean-examples" class="section level2">
+<h2>Unit 3, Part 3: (3) HT (for the mean) examples</h2>
 <p><span class="math">\({H_0 \mu  = 3}\)</span></p>
 <p><span class="math">\({H_A \mu &gt; 3}\)</span></p>
 <p>p-value is P(observed or more extreme outcome | <span class="math">\({H_0}\)</span> true)</p>
@@ -168,19 +167,20 @@ pvalue = 1 - pnorm(zscore); # One sided.
 
 sprintf(&quot;SE=%.4f, zscore=%.4f, p-value=%.4f, reject H0=%s&quot;, SE, zscore, pvalue,  pvalue &lt; alpha);</code></pre>
 <pre><code>## [1] &quot;SE=2.5456, zscore=0.0786, p-value=0.4687, reject H0=FALSE&quot;</code></pre>
-<div id="decision-based-on-the-p-value." class="section level2">
-<h2>Decision based on the p-value.</h2>
+<div id="decision-based-on-the-p-value." class="section level3">
+<h3>Decision based on the p-value.</h3>
 <ul>
 <li><p>if the p-value is very low (lower than <span class="math">\({\alpha}\)</span>) we reject <span class="math">\({H_0}\)</span></p></li>
 <li><p>otherwise. Fail to reject <span class="math">\({H_0}\)</span></p></li>
 </ul>
 </div>
 </div>
-<div id="unit-3-part-4-inference-for-other-estimators." class="section level1">
-<h1>Unit 3, Part 4: Inference for Other Estimators.</h1>
+<div id="unit-3-part-4-inference-for-other-estimators." class="section level2">
+<h2>Unit 3, Part 4: Inference for Other Estimators.</h2>
 </div>
-<div id="unit-3-part-5-1-decision-errors." class="section level1">
-<h1>Unit 3, Part 5: (1) Decision Errors.</h1>
+<div id="unit-3-part-5-1-decision-errors." class="section level2">
+<h2>Unit 3, Part 5: (1) Decision Errors.</h2>
+</div>
 </div>
 
 
