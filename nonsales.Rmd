@@ -1,0 +1,261 @@
+---
+title: "Proposals to prevent timeouts by reducing the number of threads in non-sales-sync"
+output:
+  pdf_document: default
+  html_document: default
+date: "May 19, 2017"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Timeouts and deadlocks
+
+A lot of the timeouts in GCM seem to be related with threads blocking each other.  In many cases it is a deadlock where two or more threads are blocked waiting for resources that are blocked by the other threads.
+
+There are two conditions that make the deadlocks more likely.
+
+1. Long transactions.
+
+2. Concurrently access the same records.
+
+Reducing either one will also reduce the deadlock occurrence. This document argues that it is possible to have a smaller number of threads and therefore reducing the likelihood of having timeouts and deadlocks.
+
+## Number of Requests on GCM per minute.
+This chart shows the HTTP requests on p-bussvc-app01. 
+
+````{r, echo=FALSE}
+
+traffic = head(read.csv("t2.out"), n=30);
+# head(traffic);
+# dim(traffic);
+# names(traffic);
+# summary(traffic);
+counts <- c(traffic$num_requests);
+# head(counts);
+
+mins <- traffic$minute
+
+# head(mins);
+
+par(mar = c(7, 4, 2, 2) + 0.2) 
+
+end_point = 0.5 + nrow(traffic) + nrow(traffic)-1 
+
+barplot(counts, 
+        col="grey50", 
+        main="",
+        ylab="Num. Requests", 
+        ylim=c(0,5+max(counts)),
+        xlab = "",
+        space=1);
+
+text(seq(1.5,end_point,by=2), par("usr")[3]-0.25, 
+     srt = 90, adj= 1, xpd = TRUE,
+     labels = paste(mins), cex=0.65)
+
+head(traffic, n=30);
+````
+
+It can be observed that GCM has usage spikes every 5 minutes. They start at 13:00, 13:05, 13:10, 13:20 and 13:25 and so forth. The usage peaks last 2 o 3 minutes and the rest of the 5 minute period has a very tiny load. The spikes align with the non-sales-sync process running times.
+
+It would be highly desirable that we didn't have the usage spikes. It is much better to have a steady and uniform load.
+
+## Warranty and loyalty records.
+<!--
+````{ echo=false}
+# Calculate warranty records per hour.
+for i in 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23; 
+do
+  echo -n "$i " ;grep "2017-05-17 $i:" INFO.log | grep Warr | perl -ne "print \"\$1 \n\" if /'(\d+)'$/;" | perl -lne '$x += $_; END { print $x; }';
+done > warr.out
+
+# Calculate loyalty records per hour.
+for i in 00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23; 
+do 
+  echo -n "$i " ;grep "2017-05-17 $i:" INFO.log | perl -ne 'print "$1 \n" if /(\d+)$/;' | perl -lne '$x += $_; END { print $x; }'; 
+done  > loy.out
+
+# Join
+(echo "hour,loyalty,warranty";join loy.out warr.out)  | sed -e 's/ /,/g' > /tmp/t3.out
+````
+-->
+
+These are the non sales sync records processed May 17, 2017 by hour. 
+````{r}
+nonsales = read.csv("t3.out");
+nonsales
+
+````
+
+It can be shown that 97% of the processed records are warranty records.
+````{r}
+sum(nonsales$warranty)/(sum(nonsales$loyalty)+sum(nonsales$warranty))
+
+````
+
+Turns out that most of this warranty records are old records in queue that we are processing over and over.
+````
+SELECT to_char(REC_DT, 'YYYY-MM'), count(*) FROM "SYNC_QUE_BDO"."WAR_CUST_TRANS_QUE" group by to_char(REC_DT, 'YYYY-MM') order by 1;
+````
+
+Month	  count
+
+2017-02	3,304
+
+2017-03	11,194
+
+2017-04	11,882
+
+2017-05	8,022
+
+
+````{r}
+s = sum(c(3304, 11194, 11882, 8022));
+s
+````
+
+So we have `r sprintf("%6.0f",s)` records that are processed over and over. Every five minutes. That is a total `r sprintf("%7.0f",s*25*12)` records processed a day!
+
+### Recomendation
+
+Stop re-processing the old warranty records. Either archive them and remove them from the WAR_CUST_TRANS_QUE table or only process those records with in a smaller time window. Let's say one week. It has to be considered that we have around 12,000 records that can't be processed a month. As long as the root cause is not fixed we will need an archiving and deleting mechanism that can be either automatic, or requires operations intervention.
+
+Shouldn't we fix the root cause and not have so many rejected records? Of course. But that requires a bigger time and resource commitment. In the mean time we need to mitigate this problem.
+
+## Scheduling the non sales sync.
+
+The current non-sales-sync process executes every five minutes.  This works well as long as the executing process takes less than five minutes. What would happen if it takes longer than that ?
+
+Consider this hypothetical example:
+
+Assumption 1.-  We are receiving 100 records per minute.
+
+Assumption 2.- The non-sales-sync processes 200 records per minute.
+
+Assumption 3.- We attempt to launch a process at 5 minutes intervals.
+
+Which is simulated by the following code..
+
+````
+	public static void main(String[] args) {
+
+		int queue = 0;  // Total records in the queue.
+		int inproc = 0; // Records that will be processed by the current process.
+		int in = 100;	// New records in the queue every minute.
+		for(int i = 0; i < 30; i++) {
+
+			if (i % 5 == 0 && inproc == 0) {
+					inproc = queue;
+			}
+
+			int out = Math.min(200, inproc);
+
+			queue += in;
+
+			queue  -= out;
+			inproc -= out;
+			println("minute=%d .- queue=%d, inproc=%d, in=%d, out=%d", i, queue, inproc, in, out);
+		}
+	}
+````
+
+This shows that even though the rate out is twice as fast as the rate in. The queue always has between 300 and 500 records. Which means records stay longer in the queue. 3.75 minutes in the average case. Furthermore, it causes a lot of processing spikes. Sometimes it works at a rate of 200 per minute and other times is idle processing 0 records per minute.
+
+````
+minute=0 .- queue=100, inproc=0, in=100, out=0
+minute=1 .- queue=200, inproc=0, in=100, out=0
+minute=2 .- queue=300, inproc=0, in=100, out=0
+minute=3 .- queue=400, inproc=0, in=100, out=0
+minute=4 .- queue=500, inproc=0, in=100, out=0
+minute=5 .- queue=400, inproc=300, in=100, out=200
+minute=6 .- queue=300, inproc=100, in=100, out=200
+minute=7 .- queue=300, inproc=0, in=100, out=100
+minute=8 .- queue=400, inproc=0, in=100, out=0
+minute=9 .- queue=500, inproc=0, in=100, out=0
+minute=10 .- queue=400, inproc=300, in=100, out=200
+minute=11 .- queue=300, inproc=100, in=100, out=200
+minute=12 .- queue=300, inproc=0, in=100, out=100
+minute=13 .- queue=400, inproc=0, in=100, out=0
+minute=14 .- queue=500, inproc=0, in=100, out=0
+minute=15 .- queue=400, inproc=300, in=100, out=200
+minute=16 .- queue=300, inproc=100, in=100, out=200
+minute=17 .- queue=300, inproc=0, in=100, out=100
+minute=18 .- queue=400, inproc=0, in=100, out=0
+minute=19 .- queue=500, inproc=0, in=100, out=0
+minute=20 .- queue=400, inproc=300, in=100, out=200
+minute=21 .- queue=300, inproc=100, in=100, out=200
+minute=22 .- queue=300, inproc=0, in=100, out=100
+minute=23 .- queue=400, inproc=0, in=100, out=0
+minute=24 .- queue=500, inproc=0, in=100, out=0
+minute=25 .- queue=400, inproc=300, in=100, out=200
+minute=26 .- queue=300, inproc=100, in=100, out=200
+minute=27 .- queue=300, inproc=0, in=100, out=100
+minute=28 .- queue=400, inproc=0, in=100, out=0
+minute=29 .- queue=500, inproc=0, in=100, out=0
+
+````
+The recommendation is to run the non-sales-script with a delay after the process completes. 
+
+````
+#!bash
+while true:
+do
+   java nonsalessync
+   sleep 30;
+done
+````
+
+Which should maintain a steady and uniform load...
+
+````
+minute=0 .- queue=100, inproc=0, in=100, out=0
+minute=1 .- queue=100, inproc=0, in=100, out=100
+minute=2 .- queue=100, inproc=0, in=100, out=100
+minute=3 .- queue=100, inproc=0, in=100, out=100
+minute=4 .- queue=100, inproc=0, in=100, out=100
+minute=5 .- queue=100, inproc=0, in=100, out=100
+minute=6 .- queue=100, inproc=0, in=100, out=100
+minute=7 .- queue=100, inproc=0, in=100, out=100
+minute=8 .- queue=100, inproc=0, in=100, out=100
+minute=9 .- queue=100, inproc=0, in=100, out=100
+minute=10 .- queue=100, inproc=0, in=100, out=100
+minute=11 .- queue=100, inproc=0, in=100, out=100
+minute=12 .- queue=100, inproc=0, in=100, out=100
+minute=13 .- queue=100, inproc=0, in=100, out=100
+minute=14 .- queue=100, inproc=0, in=100, out=100
+minute=15 .- queue=100, inproc=0, in=100, out=100
+minute=16 .- queue=100, inproc=0, in=100, out=100
+minute=17 .- queue=100, inproc=0, in=100, out=100
+minute=18 .- queue=100, inproc=0, in=100, out=100
+minute=19 .- queue=100, inproc=0, in=100, out=100
+minute=20 .- queue=100, inproc=0, in=100, out=100
+minute=21 .- queue=100, inproc=0, in=100, out=100
+minute=22 .- queue=100, inproc=0, in=100, out=100
+minute=23 .- queue=100, inproc=0, in=100, out=100
+minute=24 .- queue=100, inproc=0, in=100, out=100
+minute=25 .- queue=100, inproc=0, in=100, out=100
+minute=26 .- queue=100, inproc=0, in=100, out=100
+minute=27 .- queue=100, inproc=0, in=100, out=100
+minute=28 .- queue=100, inproc=0, in=100, out=100
+minute=29 .- queue=100, inproc=0, in=100, out=100
+````
+
+### Threads
+
+We currently have 20 threads in the non-sales-sync. As stated earlier, 97% of the volume are warranty records which are rejected over and over. If we resolve that issue it should be possible to reduce the number of threads. (e.g. 8 or 10)That will prevent the frequency of the of the timeouts and deadlock issues. It will maintain a steady and uniform flow. The processing time is not really directly proportional to the number of threads as the bulk of the load is on the database.
+
+## Summary of recomendations.
+
+1- Only process warranty records within a time window.  (e.g. Last week, Last month or last three days)
+
+2.- Reduce the number of threads and reevaluate to determine the optimal value.  
+
+3.- Continuously executing the job after a small delay will create a steadier and uniform flow. 
+
+
+
+
+
+

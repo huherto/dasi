@@ -1,0 +1,75 @@
+---
+title: "Exception handling guidelines (Draft)"
+output:
+  pdf_document: default
+  html_document: default
+date: "May 19, 2017"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exception handling. General guidelines.
+
+1. Exceptions are the prefered  mechanism for error handling. Should not embed error codes in the return objects.
+
+2. Exceptions should be thrown with error messages that are informative.
+
+3. When to catch exceptons...
+
+  a) Catch any exception you can fix.
+
+  b) Catch, comment on and rethrow any exception you can't fix but can say something useful about.
+
+  c) Don't catch any exception you can't process or diagnose better than the default processing will.
+
+4. There should always be a catch all at the outermost layer. 
+  In a REST application that is at the @Controler level. In a batch application it is at the main() method. 
+  This is where the exeptions should be properly logged.
+
+# Exceptions due to programming errors within the called method.
+
+  These exceptions are unexpected. 
+  Examples:
+  - NullPointerException, which is the most common one. 
+  - IndexOutOfBoundsException.
+  There is not much that can be done in the client code. It is usually better not to catch it
+  and let it go through the default process. It should be fixed in the called method.
+
+# Exceptions due to client code errors.
+
+  Examples:
+  - The client code attempts something not allowed by the API. 
+  - The client code passes arguments with invalid information. 
+  - The client code is making a request that breaks a business rule.
+  - The client code is making a request that breaks the referential integrity of the model.
+
+  The client code should handle these. Actions that can be taken:
+  - There may be missing validations in the client code. The client code might be changed to validate and inform the user.
+  - There may be a programming error in the client code. The client code should be changed to fix it.
+  - The user may be making an invalid request. The client code should inform the user with a proper error message.
+
+# Exceptions due to resource failures.
+  Examples:
+  - Out of memory errors.
+  - Network failures.
+  - Database errors.
+
+
+# Data access exceptions.
+  Examples:
+  - Deadlock detected.
+  - Timeout.
+  - 
+
+# Duplicate key exceptions.
+
+# Retry
+
+## Transiet data exceptions.
+## Non transient data exceptions.
+
+# REST exception handling.
+
+[1] https://softwareengineering.stackexchange.com/questions/176375/programming-error-exceptions-is-my-approach-sound
